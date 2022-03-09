@@ -9,6 +9,9 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
+import ProtectedRoute from './ProtectedRoute';
+import { Route, Switch } from 'react-router-dom';
+
 
 function App() {
   // хуки состояния открытия/закрытия popup
@@ -26,6 +29,8 @@ function App() {
   const [cards, setCards] = React.useState([]);
   // хуки состояния индикатора загрузки запросов
   const [isRenderLoading, setIsRenderLoading] = React.useState(false);
+  // хуки состояния авторизации пользователя
+  const [loggedIn, setLoggedIn] = React.useState(true);
 
   React.useEffect(() => {
     // загрузка массива карточек с сервера
@@ -165,37 +170,50 @@ function App() {
           onClick={handleBackgroundClose}
           onKeyDown={handleEscClose}>
         <div className="page">
-          <Header />
-          <Main onEditAvatar={handleEditAvatarClick}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onCardClick={handleCardClick}
-                cards={cards}
-                onCardLike={handleCardLike}
-                onCardDelete={handleOpenCardClick} />
-          <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar}
-                          isOpen={isEditAvatarPopupOpen}
-                          onClose={closeAllPopups}
-                          buttonText="Сохранить"
-                          isRenderLoading={isRenderLoading} />
-          <EditProfilePopup onUpdateUser={handleUpdateUser}
-                            isOpen={isEditProfilePopupOpen}
-                            onClose={closeAllPopups}
-                            buttonText="Сохранить"
-                            isRenderLoading={isRenderLoading} />
-          <AddPlacePopup isOpen={isAddPlacePopupOpen}
-                        onClose={closeAllPopups}
-                        onAddPlace={handleAddPlaceSubmit}
-                        buttonText="Создать"
-                        isRenderLoading={isRenderLoading} />
-          <DeleteCardPopup isOpen={isDeleteCardPopupOpen}
-                          onClose={closeAllPopups}
-                          cardId={currentCardId}
-                          onDeleteCard={handleCardDelete}
-                          buttonText="Да" />
-          <ImagePopup card={selectedCard}
-                      onClose={closeAllPopups} />
-          <Footer />
+          <Switch>
+            <ProtectedRoute path="/"
+              loggedIn={loggedIn}
+              component={ <>
+                <Header />
+                <Main onEditAvatar={handleEditAvatarClick}
+                      onEditProfile={handleEditProfileClick}
+                      onAddPlace={handleAddPlaceClick}
+                      onCardClick={handleCardClick}
+                      cards={cards}
+                      onCardLike={handleCardLike}
+                      onCardDelete={handleOpenCardClick} />
+                <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar}
+                                isOpen={isEditAvatarPopupOpen}
+                                onClose={closeAllPopups}
+                                buttonText="Сохранить"
+                                isRenderLoading={isRenderLoading} />
+                <EditProfilePopup onUpdateUser={handleUpdateUser}
+                                  isOpen={isEditProfilePopupOpen}
+                                  onClose={closeAllPopups}
+                                  buttonText="Сохранить"
+                                  isRenderLoading={isRenderLoading} />
+                <AddPlacePopup isOpen={isAddPlacePopupOpen}
+                              onClose={closeAllPopups}
+                              onAddPlace={handleAddPlaceSubmit}
+                              buttonText="Создать"
+                              isRenderLoading={isRenderLoading} />
+                <DeleteCardPopup isOpen={isDeleteCardPopupOpen}
+                                onClose={closeAllPopups}
+                                cardId={currentCardId}
+                                onDeleteCard={handleCardDelete}
+                                buttonText="Да" />
+                <ImagePopup card={selectedCard}
+                            onClose={closeAllPopups} />
+                <Footer />
+              </>}>
+            </ProtectedRoute>
+            <Route path="./sign-up">
+              <p>для регистрации пользователя</p>
+            </Route>
+            <Route path="./sign-in">
+              <p>для авторизации пользователя</p>
+            </Route>
+          </Switch>
         </div>
       </div>
     </CurrentUserContext.Provider>
