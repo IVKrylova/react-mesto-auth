@@ -1,8 +1,8 @@
 .header {
   margin-top: 45px;
   display: flex;
-  flex-direction: column;
   flex: 0 0 auto;
+  flex-direction: column;
 }
 
 .header::after {

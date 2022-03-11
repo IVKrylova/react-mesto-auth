@@ -11,6 +11,7 @@ import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
 import ProtectedRoute from './ProtectedRoute';
 import { Route, Switch } from 'react-router-dom';
+import Login from './Login';
 
 
 function App() {
@@ -30,7 +31,10 @@ function App() {
   // хуки состояния индикатора загрузки запросов
   const [isRenderLoading, setIsRenderLoading] = React.useState(false);
   // хуки состояния авторизации пользователя
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false /* true */);
+
+  /* // хуки состояния авторизации пользователя
+  const [loggedIn, setLoggedIn] = React.useState(false); */
 
   React.useEffect(() => {
     // загрузка массива карточек с сервера
@@ -170,11 +174,12 @@ function App() {
           onClick={handleBackgroundClose}
           onKeyDown={handleEscClose}>
         <div className="page">
+          {/* <Header /> */}
           <Switch>
-            <ProtectedRoute path="/"
+            <ProtectedRoute exact path="/"
               loggedIn={loggedIn}
               component={ <>
-                <Header />
+                <Header loggedIn={loggedIn} />
                 <Main onEditAvatar={handleEditAvatarClick}
                       onEditProfile={handleEditProfileClick}
                       onAddPlace={handleAddPlaceClick}
@@ -204,16 +209,18 @@ function App() {
                                 buttonText="Да" />
                 <ImagePopup card={selectedCard}
                             onClose={closeAllPopups} />
-                <Footer />
+                {/* <Footer /> */}
               </>}>
             </ProtectedRoute>
-            <Route path="./sign-up">
+            <Route path="/sign-up">
               <p>для регистрации пользователя</p>
             </Route>
-            <Route path="./sign-in">
-              <p>для авторизации пользователя</p>
+            <Route path="/sign-in">
+              <Header loggedIn={loggedIn} />
+              <Login /* formName="login"  *//>
             </Route>
           </Switch>
+          <Footer />
         </div>
       </div>
     </CurrentUserContext.Provider>
