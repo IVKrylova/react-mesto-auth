@@ -12,6 +12,7 @@ import DeleteCardPopup from './DeleteCardPopup';
 import ProtectedRoute from './ProtectedRoute';
 import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
+import Register from './Register';
 
 
 function App() {
@@ -32,9 +33,8 @@ function App() {
   const [isRenderLoading, setIsRenderLoading] = React.useState(false);
   // хуки состояния авторизации пользователя
   const [loggedIn, setLoggedIn] = React.useState(false /* true */);
-
-  /* // хуки состояния авторизации пользователя
-  const [loggedIn, setLoggedIn] = React.useState(false); */
+  // хуки состояния регистрации пользователя
+  const [isRegister, setIsRegister] = React.useState(false);
 
   React.useEffect(() => {
     // загрузка массива карточек с сервера
@@ -174,12 +174,11 @@ function App() {
           onClick={handleBackgroundClose}
           onKeyDown={handleEscClose}>
         <div className="page">
-          {/* <Header /> */}
           <Switch>
             <ProtectedRoute exact path="/"
               loggedIn={loggedIn}
               component={ <>
-                <Header loggedIn={loggedIn} />
+                <Header />
                 <Main onEditAvatar={handleEditAvatarClick}
                       onEditProfile={handleEditProfileClick}
                       onAddPlace={handleAddPlaceClick}
@@ -213,11 +212,12 @@ function App() {
               </>}>
             </ProtectedRoute>
             <Route path="/sign-up">
-              <p>для регистрации пользователя</p>
+              <Header />
+              <Register />
             </Route>
             <Route path="/sign-in">
-              <Header loggedIn={loggedIn} />
-              <Login /* formName="login"  *//>
+              <Header />
+              <Login />
             </Route>
           </Switch>
           <Footer />
