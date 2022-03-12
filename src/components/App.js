@@ -32,7 +32,12 @@ function App() {
   // хуки состояния индикатора загрузки запросов
   const [isRenderLoading, setIsRenderLoading] = React.useState(false);
   // хуки состояния авторизации пользователя
-  const [loggedIn, setLoggedIn] = React.useState(false /* true */);
+  const [loggedIn, setLoggedIn] = React.useState(/* false */ true);
+  // хуки состояния разворачивающегося меню
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+
+
   // хуки состояния регистрации пользователя
   const [isRegister, setIsRegister] = React.useState(false);
 
@@ -168,6 +173,16 @@ function App() {
       .catch(err => console.log(err));
   }, []);
 
+  // обработчик открытия меню
+  function handleOpenExpandingMenu() {
+    setIsMenuOpen(true);
+  }
+
+  // обработчик закрытия меню
+  function handleCloseExpandingMenu() {
+    setIsMenuOpen(false);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="site-background"
@@ -178,7 +193,9 @@ function App() {
             <ProtectedRoute exact path="/"
               loggedIn={loggedIn}
               component={ <>
-                <Header />
+                <Header onOpenMenu={handleOpenExpandingMenu}
+                        isMenuOpen={isMenuOpen}
+                        onCloseMenu={handleCloseExpandingMenu} />
                 <Main onEditAvatar={handleEditAvatarClick}
                       onEditProfile={handleEditProfileClick}
                       onAddPlace={handleAddPlaceClick}

@@ -2,17 +2,38 @@ import logo from '../images/header-logo.svg';
 import React from 'react';
 import { useLocation } from "react-router";
 
-function Header() {
+function Header(props) {
   // получаем текущий URL
   const location = useLocation();
   const currentUrl = location.pathname;
 
   return (
     <header className="header">
+      {/* Развернутое меню для tablet и mobile */}
+      {currentUrl === '/' && <div className={`header__expanding-menu ${props.isMenuOpen && 'header__expanding-menu_visible'}`}>
+                                <p className="header__email header__email_place_expanding-menu">email@mail.com</p>
+                                <a className="header__link header__link_logged header__link_place_expanding-menu">Выйти</a>
+                             </div>}
       <div className="header__content">
         <img className="header__logo" src={logo} alt="Логотип" />
         {currentUrl === '/sign-in' && <a className="header__link">Регистрация</a>}
         {currentUrl === '/sign-up' && <a className="header__link">Войти</a>}
+        {currentUrl === '/' && <div className="header__logged-menu">
+                                  {/* Меню для desktop */}
+                                  <div className="header__desktop-menu">
+                                    <p className="header__email">email@mail.com</p>
+                                    <a className="header__link header__link_logged">Выйти</a>
+                                  </div>
+                                  {/* Меню для tablet и mobile */}
+                                  <div className="header__tablet-mobile-menu">
+                                    <button type="button"  aria-label="Иконка меню"
+                                            onClick={props.onOpenMenu}
+                                            className={`header__icon-menu ${props.isMenuOpen && 'header__icon-menu_invisible'}`}></button>
+                                    <button type="button" aria-label="Иконка закрыть меню"
+                                            onClick={props.onCloseMenu}
+                                            className={`header__icon-close-menu ${props.isMenuOpen && 'header__icon-close-menu_visible'}`}></button>
+                                  </div>
+                                </div>}
       </div>
     </header>
   );
