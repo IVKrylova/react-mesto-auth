@@ -13,6 +13,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
+import InfoTooltip from './InfoTooltip';
 
 
 function App() {
@@ -35,11 +36,10 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(/* false */ true);
   // хуки состояния разворачивающегося меню
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-
-
-  // хуки состояния регистрации пользователя
-  const [isRegister, setIsRegister] = React.useState(false);
+  // хуки состояния popup в InfoTooltip
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  // хуки состояния регистрации нового пользователя
+  const [isRegistred, setIsRegistred] = React.useState(false /* true */);
 
   React.useEffect(() => {
     // загрузка массива карточек с сервера
@@ -120,6 +120,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setSelectedCard({...{name: '', link: ''}});
     setIsDeleteCardPopupOpen(false);
+    setIsInfoTooltipOpen(false);
   }
 
   // открытие popup с изображением
@@ -183,6 +184,13 @@ function App() {
     setIsMenuOpen(false);
   }
 
+  // обработчик формы регистрации
+  function handelSubmitRegistration(evt) {
+    evt.preventDefault();
+
+    setIsInfoTooltipOpen(true);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="site-background"
@@ -225,12 +233,14 @@ function App() {
                                 buttonText="Да" />
                 <ImagePopup card={selectedCard}
                             onClose={closeAllPopups} />
-                {/* <Footer /> */}
               </>}>
             </ProtectedRoute>
             <Route path="/sign-up">
               <Header />
-              <Register />
+              <Register onSubmit={handelSubmitRegistration} />
+              <InfoTooltip isOpen={isInfoTooltipOpen}
+                          onClose={closeAllPopups}
+                          isRegistred={isRegistred} />
             </Route>
             <Route path="/sign-in">
               <Header />
