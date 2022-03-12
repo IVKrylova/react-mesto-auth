@@ -1,3 +1,6 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 function Register(props) {
   return (
     <section className="register">
@@ -9,7 +12,7 @@ function Register(props) {
       </form>
       <p className="register__text">
         Уже зарегистрированы?{'\u00A0'}
-        <a className="register__link">Войти</a>
+        <Link to="/sign-in" className="register__link">Войти</Link>
       </p>
     </section>
   );

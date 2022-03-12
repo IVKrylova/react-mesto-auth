@@ -79,6 +79,7 @@
 @import url(./blocks/register/register.css);
 @import url(./blocks/register/__form/register__form.css);
 @import url(./blocks/register/__text/register__text.css);
+@import url(./blocks/register/__link/register__link.css);
 
 @import url(./blocks/registration-result/registration-result.css);
 @import url(./blocks/registration-result/__icon/registration-result__icon.css);

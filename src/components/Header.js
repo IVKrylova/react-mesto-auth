@@ -1,6 +1,7 @@
 import logo from '../images/header-logo.svg';
 import React from 'react';
-import { useLocation } from "react-router";
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 function Header(props) {
   // получаем текущий URL
@@ -12,17 +13,17 @@ function Header(props) {
       {/* Развернутое меню для tablet и mobile */}
       {currentUrl === '/' && <div className={`header__expanding-menu ${props.isMenuOpen && 'header__expanding-menu_visible'}`}>
                                 <p className="header__email header__email_place_expanding-menu">email@mail.com</p>
-                                <a className="header__link header__link_logged header__link_place_expanding-menu">Выйти</a>
+                                <Link to="/sign-in" className="header__link header__link_logged header__link_place_expanding-menu">Выйти</Link>
                              </div>}
       <div className="header__content">
         <img className="header__logo" src={logo} alt="Логотип" />
-        {currentUrl === '/sign-in' && <a className="header__link">Регистрация</a>}
-        {currentUrl === '/sign-up' && <a className="header__link">Войти</a>}
+        {currentUrl === '/sign-in' && <Link to="sign-up" className="header__link">Регистрация</Link>}
+        {currentUrl === '/sign-up' && <Link to="/sign-in" className="header__link">Войти</Link>}
         {currentUrl === '/' && <div className="header__logged-menu">
                                   {/* Меню для desktop */}
                                   <div className="header__desktop-menu">
                                     <p className="header__email">email@mail.com</p>
-                                    <a className="header__link header__link_logged">Выйти</a>
+                                    <Link to="/sign-in" className="header__link header__link_logged">Выйти</Link>
                                   </div>
                                   {/* Меню для tablet и mobile */}
                                   <div className="header__tablet-mobile-menu">
