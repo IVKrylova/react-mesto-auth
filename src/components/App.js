@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -189,7 +189,7 @@ function App() {
   }
 
   // обработчик формы регистрации
-  function handelSubmitRegistration(props) {
+  function handleSubmitRegistration(props) {
     auth.register(props.password, props.email)
       .then(_ => {
         setIsRegistred(true);
@@ -197,10 +197,6 @@ function App() {
       .catch(err => console.log(err))
       .finally(_ => setIsInfoTooltipOpen(true));
   }
-
-
-  //localStorage.clear();
-
 
   // настройка переадресации на страницу входа после удачной регистрации
   React.useEffect(_ => {
@@ -212,7 +208,7 @@ function App() {
   }, [isInfoTooltipOpen]);
 
   // обработчик формы авторизации
-  function handelSubmitLogin(props) {
+  function handleSubmitLogin(props) {
     // сохраняем email в Local storage
     localStorage.setItem('email', props.email);
 
@@ -239,7 +235,7 @@ function App() {
       auth.sendToken(token)
       .then(data => {
         const email = data.data.email;
-        if (email === /* userData.email */localStorage.getItem('email')) {
+        if (email === localStorage.getItem('email')) {
           setLoggedIn(true);
         }
       })
@@ -255,7 +251,14 @@ function App() {
     if (loggedIn) {
       history.push('/');
     }
-  }, [loggedIn])
+  }, [loggedIn]);
+
+  // обработчик выхода из приложения
+  function handleExit() {
+    localStorage.removeItem('token');
+    setEmail('');
+    setLoggedIn(false);
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -270,7 +273,8 @@ function App() {
                 <Header onOpenMenu={handleOpenExpandingMenu}
                         isMenuOpen={isMenuOpen}
                         onCloseMenu={handleCloseExpandingMenu}
-                        email={email} />
+                        email={email}
+                        onExit={handleExit} />
                 <Main onEditAvatar={handleEditAvatarClick}
                       onEditProfile={handleEditProfileClick}
                       onAddPlace={handleAddPlaceClick}
@@ -304,7 +308,7 @@ function App() {
             </ProtectedRoute>
             <Route path="/sign-up">
               <Header />
-              <Register onRegister={handelSubmitRegistration}
+              <Register onRegister={handleSubmitRegistration}
                         isRegistred={isRegistred} />
               <InfoTooltip isOpen={isInfoTooltipOpen}
                           onClose={closeAllPopups}
@@ -312,7 +316,7 @@ function App() {
             </Route>
             <Route path="/sign-in">
               <Header />
-              <Login onLogin={handelSubmitLogin}
+              <Login onLogin={handleSubmitLogin}
                     loggedIn={loggedIn} />
             </Route>
           </Switch>

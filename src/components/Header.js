@@ -13,7 +13,7 @@ function Header(props) {
       {/* Развернутое меню для tablet и mobile */}
       {currentUrl === '/' && <div className={`header__expanding-menu ${props.isMenuOpen && 'header__expanding-menu_visible'}`}>
                                 <p className="header__email header__email_place_expanding-menu">{props.email}</p>
-                                <Link to="/sign-in" className="header__link header__link_logged header__link_place_expanding-menu">Выйти</Link>
+                                <Link to="/sign-in" onClick={props.onExit} className="header__link header__link_logged header__link_place_expanding-menu">Выйти</Link>
                              </div>}
       <div className="header__content">
         <img className="header__logo" src={logo} alt="Логотип" />
@@ -23,7 +23,7 @@ function Header(props) {
                                   {/* Меню для desktop */}
                                   <div className="header__desktop-menu">
                                     <p className="header__email">{props.email}</p>
-                                    <Link to="/sign-in" className="header__link header__link_logged">Выйти</Link>
+                                    <Link to="/sign-in" onClick={props.onExit} className="header__link header__link_logged">Выйти</Link>
                                   </div>
                                   {/* Меню для tablet и mobile */}
                                   <div className="header__tablet-mobile-menu">
