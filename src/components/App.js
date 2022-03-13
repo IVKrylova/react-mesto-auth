@@ -14,7 +14,7 @@ import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
-
+import * as auth from '../utils/auth';
 
 function App() {
   // хуки состояния открытия/закрытия popup
@@ -39,7 +39,7 @@ function App() {
   // хуки состояния popup в InfoTooltip
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   // хуки состояния регистрации нового пользователя
-  const [isRegistred, setIsRegistred] = React.useState(false /* true */);
+  const [isRegistred, setIsRegistred] = React.useState(false);
 
   React.useEffect(() => {
     // загрузка массива карточек с сервера
@@ -185,10 +185,16 @@ function App() {
   }
 
   // обработчик формы регистрации
-  function handelSubmitRegistration(evt) {
-    evt.preventDefault();
-
-    setIsInfoTooltipOpen(true);
+  function handelSubmitRegistration(props) {
+    auth.register(props.password, props.email)
+      .then(_ => {
+        setIsRegistred(true);
+      })
+      .catch(err => {
+        console.log(err);
+        setIsRegistred(false);
+      })
+      .finally(_ => setIsInfoTooltipOpen(true));
   }
 
   return (
@@ -237,7 +243,8 @@ function App() {
             </ProtectedRoute>
             <Route path="/sign-up">
               <Header />
-              <Register onSubmit={handelSubmitRegistration} />
+              <Register onRegister={handelSubmitRegistration}
+                        isRegistred={isRegistred} />
               <InfoTooltip isOpen={isInfoTooltipOpen}
                           onClose={closeAllPopups}
                           isRegistred={isRegistred} />
