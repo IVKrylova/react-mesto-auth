@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -33,13 +33,15 @@ function App() {
   // хуки состояния индикатора загрузки запросов
   const [isRenderLoading, setIsRenderLoading] = React.useState(false);
   // хуки состояния авторизации пользователя
-  const [loggedIn, setLoggedIn] = React.useState(/* false */ true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   // хуки состояния разворачивающегося меню
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   // хуки состояния popup в InfoTooltip
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   // хуки состояния регистрации нового пользователя
   const [isRegistred, setIsRegistred] = React.useState(false);
+  // хуки состояния email авторизированного пользователя
+  const [email, setEmail] = React.useState('');
   // получаем доступ к объекту history
   const history = useHistory();
 
@@ -192,14 +194,13 @@ function App() {
       .then(_ => {
         setIsRegistred(true);
       })
-      .catch(err => {
-        console.log(err);
-        setIsRegistred(false);
-      })
-      .finally(_ => {
-        setIsInfoTooltipOpen(true);
-      });
+      .catch(err => console.log(err))
+      .finally(_ => setIsInfoTooltipOpen(true));
   }
+
+
+  //localStorage.clear();
+
 
   // настройка переадресации на страницу входа после удачной регистрации
   React.useEffect(_ => {
@@ -209,6 +210,52 @@ function App() {
       setIsRegistred(false);
     }
   }, [isInfoTooltipOpen]);
+
+  // обработчик формы авторизации
+  function handelSubmitLogin(props) {
+    // сохраняем email в Local storage
+    localStorage.setItem('email', props.email);
+
+    auth.authorize(props.password, props.email)
+      .then(data => {
+        // сохраняем токен в Local storage
+        localStorage.setItem('token', data.token);
+        setLoggedIn(true);
+      })
+      .catch(err => console.log(err))
+  }
+
+  // установка значения для авторизированного пользователя
+  React.useEffect(_ => {
+    setEmail(localStorage.getItem('email'));
+  });
+
+  // функция проверки токена
+  function tokenCheck() {
+    if (localStorage.getItem('token')) {
+      const token = localStorage.getItem('token');
+
+      // проверяем данные о пользователе по токену
+      auth.sendToken(token)
+      .then(data => {
+        const email = data.data.email;
+        if (email === /* userData.email */localStorage.getItem('email')) {
+          setLoggedIn(true);
+        }
+      })
+      .catch(err => console.log(err));
+    }
+  }
+
+  // проверяем токен при загрузке приложения
+  React.useEffect(_ => tokenCheck(), []);
+
+  // проверяем, авторизирован ли пользователь и загружаем приложение
+  React.useEffect(_ => {
+    if (loggedIn) {
+      history.push('/');
+    }
+  }, [loggedIn])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -222,7 +269,8 @@ function App() {
               component={ <>
                 <Header onOpenMenu={handleOpenExpandingMenu}
                         isMenuOpen={isMenuOpen}
-                        onCloseMenu={handleCloseExpandingMenu} />
+                        onCloseMenu={handleCloseExpandingMenu}
+                        email={email} />
                 <Main onEditAvatar={handleEditAvatarClick}
                       onEditProfile={handleEditProfileClick}
                       onAddPlace={handleAddPlaceClick}
@@ -264,7 +312,8 @@ function App() {
             </Route>
             <Route path="/sign-in">
               <Header />
-              <Login />
+              <Login onLogin={handelSubmitLogin}
+                    loggedIn={loggedIn} />
             </Route>
           </Switch>
           <Footer />
