@@ -1,8 +1,9 @@
 import React from 'react';
+import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
 function Login(props) {
-  // хуки состояния значения инпутов
-  const [ values, setValues ] = React.useState({ email: '', password: '' });
+  // запускаем валидацию формы
+  const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
 
   // обраотчик формы
   function handleSubmit(evt) {
@@ -16,15 +17,9 @@ function Login(props) {
     });
   }
 
-  // обработчик проверки изменения инпута
-  const handleChange = (evt) => {
-    const {name, value} = evt.target
-    setValues({...values, [name]: value });
-  };
-
   // сброс значений инпутов формы
   React.useEffect(_ => {
-    setValues({ email: '', password: '' })
+    resetForm();
   }, [props.loggedIn]);
 
   return (
@@ -34,10 +29,16 @@ function Login(props) {
         <input type="email" className="form__item form__item_theme_dark" id="login-email" name="email" placeholder="Email" required
               value={values.email}
               onChange={handleChange} />
+        <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>
+          {isValid ? '' : errors.email}
+        </span>
         <input type="password" className="form__item form__item_theme_dark" id="login-password" name="password" placeholder="Пароль" required
               value={values.password}
               onChange={handleChange} />
-        <button type="submit" className="form__button form__button_theme_dark">Войти</button>
+        <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>
+          {isValid ? '' : errors.password}
+        </span>
+        <button disabled={!isValid} type="submit" className="form__button form__button_theme_dark">Войти</button>
       </form>
     </section>
   );

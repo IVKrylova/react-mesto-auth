@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
 function Register(props) {
-  // хуки состояния значения инпутов
-  const [ values, setValues ] = React.useState({ email: '', password: '' });
+  // запускаем валидацию формы
+  const { values, handleChange, errors, isValid, resetForm } = useFormAndValidation();
 
   // обраотчик формы
   function handleSubmit(evt) {
@@ -17,28 +18,28 @@ function Register(props) {
     });
   }
 
-  // обработчик проверки изменения инпута
-  const handleChange = (evt) => {
-    const {name, value} = evt.target
-    setValues({...values, [name]: value });
-  };
-
   // сброс значений инпутов формы
   React.useEffect(_ => {
-    setValues({ email: '', password: '' })
+    resetForm();
   }, [props.isRegistred]);
 
   return (
     <section className="register">
       <h3 className="title title_theme_dark">Регистрация</h3>
-      <form onSubmit={handleSubmit} className="form register__form" name="form-register" id="form-register">
+      <form onSubmit={handleSubmit} className="form register__form" name="form-register" id="form-register" noValidate>
         <input type="email" className="form__item form__item_theme_dark" id="register-email" name="email" placeholder="Email" required
               value={values.email}
               onChange={handleChange} />
+        <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>
+          {isValid ? '' : errors.email}
+        </span>
         <input type="password" className="form__item form__item_theme_dark" id="register-password" name="password" placeholder="Пароль" required
               value={values.password}
               onChange={handleChange} />
-        <button type="submit" className="form__button form__button_theme_dark">Зарегистрироваться</button>
+        <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>
+          {isValid ? '' : errors.password}
+        </span>
+        <button disabled={!isValid} type="submit" className="form__button form__button_theme_dark">Зарегистрироваться</button>
       </form>
       <p className="register__text">
         Уже зарегистрированы?{'\u00A0'}
