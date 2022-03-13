@@ -26,7 +26,7 @@ function EditAvatarPopup(props) {
   }
 
   // сброс значений инпутов формы
-  React.useEffect(() => {
+  React.useEffect(_ => {
     inputRef.current.value = '';
     setIsValid(false);
     setError('');
@@ -40,11 +40,11 @@ function EditAvatarPopup(props) {
                   buttonText={props.buttonText}
                   isValid={isValid}>
       <input type="url" id="avatar-url" name="avatar" placeholder="Ссылка на аватар" required
-            className={`form__item ${isValid ? '' : 'form__item_type_error'}`}
+            className={`form__item ${!isValid && 'form__item_type_error'}`}
             onChange={checkInputUrl}
             ref={inputRef} />
-      <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>
-        {isValid ? '' : error}
+      <span className={`form__input-error ${!isValid && 'form__input-error_active'}`}>
+        {!isValid && error}
       </span>
     </PopupWithForm>
   );

@@ -28,7 +28,7 @@ function Card(props) {
 
   // cоздаём переменную, которую после зададим в `className` для кнопки лайка
   const cardLikeButtonClassName = (
-    `element__like ${isLiked ? 'element__like_active' : ''}`
+    `element__like ${isLiked && 'element__like_active'}`
   );
 
   return (

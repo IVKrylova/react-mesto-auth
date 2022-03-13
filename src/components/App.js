@@ -45,7 +45,7 @@ function App() {
   // получаем доступ к объекту history
   const history = useHistory();
 
-  React.useEffect(() => {
+  React.useEffect(_ => {
     // загрузка массива карточек с сервера
     api.getInitialCards()
       .then(data => {
@@ -86,7 +86,7 @@ function App() {
   // обработчик удаления карточки
   function handleCardDelete(props) {
     api.deleteCard(props)
-      .then( _ => {
+      .then(_ => {
         const newArrayCards = cards.filter(item => item._id !== props);
 
         setCards(newArrayCards);

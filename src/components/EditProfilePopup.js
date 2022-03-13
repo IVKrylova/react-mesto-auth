@@ -10,7 +10,7 @@ function EditProfilePopup(props) {
   const { values, handleChange, errors, isValid, setValues, setErrors, setIsValid } = useFormAndValidation();
 
   // после загрузки текущего пользователя из API eго данные будут использованы в управляемых компонентах
-  React.useEffect(() => {
+  React.useEffect(_ => {
     setValues({ name: currentUser.name, description: currentUser.description});
     setErrors({});
     setIsValid(true);
@@ -37,18 +37,18 @@ function EditProfilePopup(props) {
                   buttonText={props.buttonText}
                   isValid={isValid}>
       <input type="text" id="name" name="name" placeholder="Имя" minLength="2" maxLength="40" required
-            className={`form__item ${isValid ? '' : 'form__item_type_error'}`}
+            className={`form__item ${!isValid && 'form__item_type_error'}`}
             value={values.name}
             onChange={handleChange} />
-      <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>
-        {isValid ? '' : errors.name}
+      <span className={`form__input-error ${!isValid && 'form__input-error_active'}`}>
+        {!isValid && errors.name}
       </span>
       <input type="text" id="profession" name="description" placeholder="О себе" required minLength="2" maxLength="200"
             value={values.description}
             onChange={handleChange}
-            className={`form__item ${isValid ? '' : 'form__item_type_error'}`} />
-      <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>
-        {isValid ? '' : errors.description}
+            className={`form__item ${!isValid && 'form__item_type_error'}`} />
+      <span className={`form__input-error ${!isValid && 'form__input-error_active'}`}>
+        {!isValid && errors.description}
       </span>
     </PopupWithForm>
   );

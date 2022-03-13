@@ -29,14 +29,14 @@ function Login(props) {
         <input type="email" className="form__item form__item_theme_dark" id="login-email" name="email" placeholder="Email" required
               value={values.email}
               onChange={handleChange} />
-        <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>
-          {isValid ? '' : errors.email}
+        <span className={`form__input-error ${!isValid && 'form__input-error_active'}`}>
+          {!isValid && errors.email}
         </span>
         <input type="password" className="form__item form__item_theme_dark" id="login-password" name="password" placeholder="Пароль" required
               value={values.password}
               onChange={handleChange} />
-        <span className={`form__input-error ${isValid ? '' : 'form__input-error_active'}`}>
-          {isValid ? '' : errors.password}
+        <span className={`form__input-error ${!isValid && 'form__input-error_active'}`}>
+          {!isValid && errors.password}
         </span>
         <button disabled={!isValid} type="submit" className="form__button form__button_theme_dark">Войти</button>
       </form>
