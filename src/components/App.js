@@ -10,7 +10,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
 import ProtectedRoute from './ProtectedRoute';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
@@ -40,6 +40,8 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   // хуки состояния регистрации нового пользователя
   const [isRegistred, setIsRegistred] = React.useState(false);
+  // получаем доступ к объекту history
+  const history = useHistory();
 
   React.useEffect(() => {
     // загрузка массива карточек с сервера
@@ -194,8 +196,19 @@ function App() {
         console.log(err);
         setIsRegistred(false);
       })
-      .finally(_ => setIsInfoTooltipOpen(true));
+      .finally(_ => {
+        setIsInfoTooltipOpen(true);
+      });
   }
+
+  // настройка переадресации на страницу входа после удачной регистрации
+  React.useEffect(_ => {
+    if (!isInfoTooltipOpen && isRegistred) {
+      history.push('/sign-in');
+      // меняем isRegistred, чтобы работала ссылка "Регистрация" в header
+      setIsRegistred(false);
+    }
+  }, [isInfoTooltipOpen]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

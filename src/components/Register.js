@@ -24,7 +24,7 @@ function Register(props) {
   };
 
   // сброс значений инпутов формы
-  React.useEffect(() => {
+  React.useEffect(_ => {
     setValues({ email: '', password: '' })
   }, [props.isRegistred]);
 
