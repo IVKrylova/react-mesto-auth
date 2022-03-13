@@ -1,5 +1,13 @@
 // базовый URL для регистрации/авторизации
-export const BASE_URL = 'https://auth.nomoreparties.co';
+const BASE_URL = 'https://auth.nomoreparties.co';
+
+// метод проверки ошибок
+function checkResponse(res) {
+  if (res.status >= 200 && res.status < 300) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
 
 // регистрация нового пользователя
 export const register = (password, email) => {
@@ -10,12 +18,7 @@ export const register = (password, email) => {
     },
     body: JSON.stringify({ password, email })
   })
-  .then((res) => {
-    if (res.status === 201) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+  .then(checkResponse)
 }
 
 // авторизация пользователя
@@ -27,12 +30,7 @@ export const authorize = (password, email) => {
     },
     body: JSON.stringify({ password, email })
   })
-  .then((res) => {
-    if (res.status === 200) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+  .then(checkResponse)
 }
 
 // запрос на роут аутентификации
@@ -44,10 +42,5 @@ export const sendToken = (token) => {
       "Authorization" : `Bearer ${token}`
     }
   })
-  .then((res) => {
-    if (res.status === 200) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+  .then(checkResponse)
 }
