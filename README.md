@@ -14,4 +14,4 @@
 ## Планы по доработке проекта
 * Написать регистрацию и авторизацию в проект Mesto на «Реакте»
 
-[Ссылка на проект в GitHub Pages](https://ivkrylova.github.io/mesto-react/)
+[Ссылка на проект в GitHub Pages](https://ivkrylova.github.io/react-mesto-auth/)
