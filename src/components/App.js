@@ -69,12 +69,18 @@ function App() {
       .catch(err => console.log(err));
   }
 
-   // обработчик закрытия popup при нажатии на Esc
-  function handleEscClose(evt) {
-    if (evt.key === 'Escape') {
-      closeAllPopups();
-    }
-  }
+  React.useEffect(_ => {
+    // обработчик закрытия popup при нажатии на Esc
+    const handleEscClose = (evt) => {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscClose);
+
+    return _ => document.removeEventListener("keydown", handleEscClose);
+  }, []);
 
   // обработчик закрытия popup при клике вне его
   function handleBackgroundClose(evt) {
@@ -263,8 +269,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="site-background"
-          onClick={handleBackgroundClose}
-          onKeyDown={handleEscClose}>
+          onClick={handleBackgroundClose}>
         <div className="page">
           <Switch>
             <ProtectedRoute exact path="/"
