@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
 function EditProfilePopup(props) {
   // подписываемся на контекст CurrentUserContext
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
   // запускаем валидацию формы
   const { values, handleChange, errors, isValid, setValues, setErrors, setIsValid } = useFormAndValidation();
 

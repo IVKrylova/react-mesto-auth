@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PopupWithForm from "./PopupWithForm";
 import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
@@ -19,7 +19,7 @@ function AddPlacePopup(props) {
   }
 
   // сброс значений инпутов формы
-  React.useEffect(_ => {
+  useEffect(_ => {
     resetForm();
   }, [props.isOpen]);
 

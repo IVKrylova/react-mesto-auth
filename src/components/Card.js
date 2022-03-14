@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card(props) {
   // подписываемся на контекст CurrentUserContext
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   // обработчик клика по карточке
   function handleClick() {

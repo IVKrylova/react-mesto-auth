@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
@@ -19,7 +19,7 @@ function Register(props) {
   }
 
   // сброс значений инпутов формы
-  React.useEffect(_ => {
+  useEffect(_ => {
     resetForm();
   }, [props.isRegistred]);
 

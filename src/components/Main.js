@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Card from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
   // подписываемся на контекст CurrentUserContext
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <main className="content">

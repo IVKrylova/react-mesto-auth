@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
 function Login(props) {
@@ -18,7 +18,7 @@ function Login(props) {
   }
 
   // сброс значений инпутов формы
-  React.useEffect(_ => {
+  useEffect(_ => {
     resetForm();
   }, [props.loggedIn]);
 

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup(props) {
   // переменная для доступа к элементу инпута
-  const inputRef = React.useRef();
+  const inputRef = useRef();
   // хуки состояния ошибок input
-  const [ error, setError ] = React.useState('');
+  const [ error, setError ] = useState('');
   // хуки состояния валидности input
-  const [isValid, setIsValid] = React.useState(false);
+  const [isValid, setIsValid] = useState(false);
 
   // обработчик изменения инпута
   function handleSubmit(evt) {
@@ -26,7 +26,7 @@ function EditAvatarPopup(props) {
   }
 
   // сброс значений инпутов формы
-  React.useEffect(_ => {
+  useEffect(_ => {
     inputRef.current.value = '';
     setIsValid(false);
     setError('');

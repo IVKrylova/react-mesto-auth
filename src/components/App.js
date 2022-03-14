@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -18,34 +18,34 @@ import * as auth from '../utils/auth';
 
 function App() {
   // хуки состояния открытия/закрытия popup
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen ] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen ] = useState(false);
   // хуки состояния текущего id карточки
-  const [currentCardId, setCurrentCardId] = React.useState('');
+  const [currentCardId, setCurrentCardId] = useState('');
   // хуки состояния popup с изображением
-  const [selectedCard, setSelectedCard] = React.useState({ name: '', link: '' });;
+  const [selectedCard, setSelectedCard] = useState({ name: '', link: '' });;
   // хуки состояния данных о пользователе
-  const [currentUser, setCurrentUser] = React.useState({ name: '', description: '', avatar: '', id: '' });
+  const [currentUser, setCurrentUser] = useState({ name: '', description: '', avatar: '', id: '' });
   // хуки состояния загрузки массива карточек
-  const [cards, setCards] = React.useState([]);
+  const [cards, setCards] = useState([]);
   // хуки состояния индикатора загрузки запросов
-  const [isRenderLoading, setIsRenderLoading] = React.useState(false);
+  const [isRenderLoading, setIsRenderLoading] = useState(false);
   // хуки состояния авторизации пользователя
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   // хуки состояния разворачивающегося меню
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   // хуки состояния popup в InfoTooltip
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   // хуки состояния регистрации нового пользователя
-  const [isRegistred, setIsRegistred] = React.useState(false);
+  const [isRegistred, setIsRegistred] = useState(false);
   // хуки состояния email авторизированного пользователя
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = useState('');
   // получаем доступ к объекту history
   const history = useHistory();
 
-  React.useEffect(_ => {
+  useEffect(_ => {
     // загрузка массива карточек с сервера
     api.getInitialCards()
       .then(data => {
@@ -69,7 +69,7 @@ function App() {
       .catch(err => console.log(err));
   }
 
-  React.useEffect(_ => {
+  useEffect(_ => {
     // обработчик закрытия popup при нажатии на Esc
     const handleEscClose = (evt) => {
       if (evt.key === "Escape") {
@@ -174,7 +174,7 @@ function App() {
       .finally(_ => setIsRenderLoading(false));
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     // загрузка информации о пользователе с сервера
     api.getUserInfo()
       .then(data => {
@@ -205,7 +205,7 @@ function App() {
   }
 
   // настройка переадресации на страницу входа после удачной регистрации
-  React.useEffect(_ => {
+  useEffect(_ => {
     if (!isInfoTooltipOpen && isRegistred) {
       history.push('/sign-in');
       // меняем isRegistred, чтобы работала ссылка "Регистрация" в header
@@ -228,7 +228,7 @@ function App() {
   }
 
   // установка значения для авторизированного пользователя
-  React.useEffect(_ => {
+  useEffect(_ => {
     setEmail(localStorage.getItem('email'));
   });
 
@@ -250,10 +250,10 @@ function App() {
   }
 
   // проверяем токен при загрузке приложения
-  React.useEffect(_ => tokenCheck(), []);
+  useEffect(_ => tokenCheck(), []);
 
   // проверяем, авторизирован ли пользователь и загружаем приложение
-  React.useEffect(_ => {
+  useEffect(_ => {
     if (loggedIn) {
       history.push('/');
     }
