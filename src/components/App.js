@@ -45,15 +45,6 @@ function App() {
   // получаем доступ к объекту history
   const history = useHistory();
 
-  useEffect(_ => {
-    // загрузка массива карточек с сервера
-    api.getInitialCards()
-      .then(data => {
-        setCards(data);
-      })
-      .catch(err => console.log(err));
-  }, []);
-
   // обработчик клика на лайк
   function handleCardLike(card) {
     // проверяем, есть ли уже лайк на этой карточке
@@ -174,14 +165,18 @@ function App() {
       .finally(_ => setIsRenderLoading(false));
   }
 
-  useEffect(() => {
-    // загрузка информации о пользователе с сервера
-    api.getUserInfo()
-      .then(data => {
-        const { name, about, avatar, _id } = data;
-        setCurrentUser({ name: name, description: about, avatar: avatar, id: _id })
-      })
-      .catch(err => console.log(err));
+  useEffect(_ => {
+    // загрузка информации о пользователе с сервера, загрузка массива карточек
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([user, cards]) => {
+      // установка данных о пользователе
+      const { name, about, avatar, _id } = user;
+      setCurrentUser({ name: name, description: about, avatar: avatar, id: _id });
+
+      // установка массива карточек
+      setCards(cards);
+    })
+    .catch(err => console.log(err))
   }, []);
 
   // обработчик открытия меню
