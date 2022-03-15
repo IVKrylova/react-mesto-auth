@@ -252,6 +252,7 @@ function App() {
   // обработчик выхода из приложения
   function handleExit() {
     localStorage.removeItem('token');
+    localStorage.removeItem('email');
     setEmail('');
     setLoggedIn(false);
   }
