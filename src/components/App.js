@@ -224,9 +224,9 @@ function App() {
 
   // функция проверки токена
   function tokenCheck() {
-    if (localStorage.getItem('token')) {
-      const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
+    if (token) {
       // проверяем данные о пользователе по токену
       auth.sendToken(token)
       .then(data => {
