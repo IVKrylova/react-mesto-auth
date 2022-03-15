@@ -1,5 +1,4 @@
-// базовый URL для регистрации/авторизации
-const BASE_URL = 'https://auth.nomoreparties.co';
+import { BASE_URL } from "./constants";
 
 // метод проверки ошибок
 function checkResponse(res) {

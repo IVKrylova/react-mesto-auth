@@ -1,3 +1,6 @@
+// базовый URL для регистрации/авторизации
+export const BASE_URL = 'https://auth.nomoreparties.co';
+
 // объект с настройками для API
 export const options = {
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-34',
