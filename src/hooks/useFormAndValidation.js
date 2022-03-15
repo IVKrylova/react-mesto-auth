@@ -2,7 +2,7 @@ import {useState, useCallback} from 'react';
 
 export function useFormAndValidation() {
   // хуки состояния значения инпутов
-  const [ values, setValues ] = useState({ name: '', description: '', link: '', email: '', password: '' });
+  const [ values, setValues ] = useState({});
   // хуки состояния ошибок инпутов
   const [ errors, setErrors ] = useState({});
   // хуки состояния валидности формы
@@ -17,7 +17,7 @@ export function useFormAndValidation() {
   };
 
   // возвращаем мемоизированный колбэк
-  const resetForm = useCallback((newValues = { name: '', description: '', link: '', email: '', password: '' }, newErrors = {}, newIsValid = false) => {
+  const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid = false) => {
     setValues(newValues);
     setErrors(newErrors);
     setIsValid(newIsValid);

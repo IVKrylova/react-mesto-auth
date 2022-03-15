@@ -27,13 +27,13 @@ function AuthForm(props) {
       <h3 className="title title_theme_dark">{props.title}</h3>
       <form onSubmit={handleSubmit} className={`form ${props.formName}__form`} name={`form-${props.formName}`} id={`form-${props.formName}`} noValidate>
         <input type="email" className="form__item form__item_theme_dark" id={`${props.formName}-email`} name="email" placeholder="Email" required
-              value={values.email}
+              value={values.email || ''}
               onChange={handleChange} />
         <span className={`form__input-error ${!isValid && 'form__input-error_active'}`}>
           {!isValid && errors.email}
         </span>
         <input type="password" className="form__item form__item_theme_dark" id={`${props.formName}-password`} name="password" placeholder="Пароль" required
-              value={values.password}
+              value={values.password || ''}
               onChange={handleChange} />
         <span className={`form__input-error ${!isValid && 'form__input-error_active'}`}>
           {!isValid && errors.password}

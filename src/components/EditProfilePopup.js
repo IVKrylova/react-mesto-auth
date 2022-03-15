@@ -38,13 +38,13 @@ function EditProfilePopup(props) {
                   isValid={isValid}>
       <input type="text" id="name" name="name" placeholder="Имя" minLength="2" maxLength="40" required
             className={`form__item ${!isValid && 'form__item_type_error'}`}
-            value={values.name}
+            value={values.name  || ''}
             onChange={handleChange} />
       <span className={`form__input-error ${!isValid && 'form__input-error_active'}`}>
         {!isValid && errors.name}
       </span>
       <input type="text" id="profession" name="description" placeholder="О себе" required minLength="2" maxLength="200"
-            value={values.description}
+            value={values.description  || ''}
             onChange={handleChange}
             className={`form__item ${!isValid && 'form__item_type_error'}`} />
       <span className={`form__input-error ${!isValid && 'form__input-error_active'}`}>
