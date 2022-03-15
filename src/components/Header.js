@@ -28,10 +28,10 @@ function Header(props) {
                                   {/* Меню для tablet и mobile */}
                                   <div className="header__tablet-mobile-menu">
                                     <button type="button"  aria-label="Иконка меню"
-                                            onClick={props.onOpenMenu}
+                                            onClick={props.onToggleMenu}
                                             className={`header__icon-menu ${props.isMenuOpen && 'header__icon-menu_invisible'}`}></button>
                                     <button type="button" aria-label="Иконка закрыть меню"
-                                            onClick={props.onCloseMenu}
+                                            onClick={props.onToggleMenu}
                                             className={`header__icon-close-menu ${props.isMenuOpen && 'header__icon-close-menu_visible'}`}></button>
                                   </div>
                                 </div>}

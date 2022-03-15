@@ -179,14 +179,9 @@ function App() {
     .catch(err => console.log(err))
   }, []);
 
-  // обработчик открытия меню
-  function handleOpenExpandingMenu() {
-    setIsMenuOpen(true);
-  }
-
-  // обработчик закрытия меню
-  function handleCloseExpandingMenu() {
-    setIsMenuOpen(false);
+  // обработчик переключения меню
+  function handleToggleMenu() {
+    isMenuOpen ? setIsMenuOpen(false) : setIsMenuOpen(true);
   }
 
   // обработчик формы регистрации
@@ -270,9 +265,8 @@ function App() {
             <ProtectedRoute exact path="/"
               loggedIn={loggedIn}
               component={ <>
-                <Header onOpenMenu={handleOpenExpandingMenu}
-                        isMenuOpen={isMenuOpen}
-                        onCloseMenu={handleCloseExpandingMenu}
+                <Header isMenuOpen={isMenuOpen}
+                        onToggleMenu={handleToggleMenu}
                         email={email}
                         onExit={handleExit} />
                 <Main onEditAvatar={handleEditAvatarClick}
