@@ -220,7 +220,7 @@ function App() {
   // установка значения для авторизированного пользователя
   useEffect(_ => {
     setEmail(localStorage.getItem('email'));
-  });
+  }, [loggedIn]);
 
   // функция проверки токена
   function tokenCheck() {
