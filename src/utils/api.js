@@ -21,6 +21,7 @@ class Api {
       /* headers: {
         authorization: this.authorization
       } */
+      credentials: 'include',
     })
     .then(this._checkResponse)
   }
@@ -31,6 +32,7 @@ class Api {
       /* headers: {
         authorization: this.authorization
       } */
+      credentials: 'include',
     })
     .then(this._checkResponse)
   }

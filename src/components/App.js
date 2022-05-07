@@ -210,7 +210,7 @@ function App() {
 
     auth.authorize(props.password, props.email)
       .then(data => {
-        console.log(data.message);
+        console.log(data);
         if (data.message === 'Логин успешный') {
           // сохраняем в Local storage
           localStorage.setItem(/* 'token', data.token */ 'login', data.message);
@@ -226,7 +226,7 @@ function App() {
     setEmail(localStorage.getItem('email'));
   }, [loggedIn]);
 
-  // функция проверки токена
+  // функция проверки пользователя
   function tokenCheck() {
     /* const token = localStorage.getItem('token'); */
     const login = localStorage.getItem('login')
