@@ -3,7 +3,7 @@ import { options } from './constants';
 class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;
-    this.authorization = options.headers.authorization;
+    /* this.authorization = options.headers.authorization; */
     this.contentType = options.headers['Content-Type'];
   }
 
@@ -17,10 +17,10 @@ class Api {
 
   // метод получения информации о пользователе
   getUserInfo() {
-    return fetch(`https://nomoreparties.co/v1/cohort-34/users/me`, {
-      headers: {
+    return fetch(/* `https://nomoreparties.co/v1/cohort-34/users/me` */`${this.baseUrl}/users/me`, {
+      /* headers: {
         authorization: this.authorization
-      }
+      } */
     })
     .then(this._checkResponse)
   }
@@ -28,9 +28,9 @@ class Api {
   // метод получения массива карточек
   getInitialCards() {
     return fetch(`${this.baseUrl}/cards`, {
-      headers: {
+      /* headers: {
         authorization: this.authorization
-      }
+      } */
     })
     .then(this._checkResponse)
   }
@@ -41,7 +41,7 @@ class Api {
       return fetch(`${this.baseUrl}/cards/${idCard}/likes`, {
         method: 'DELETE',
         headers: {
-          authorization: this.authorization,
+          /* authorization: this.authorization, */
           'Content-Type': this.contentType
         }
       })
@@ -50,7 +50,7 @@ class Api {
       return fetch(`${this.baseUrl}/cards/${idCard}/likes`, {
         method: 'PUT',
         headers: {
-          authorization: this.authorization,
+          /* authorization: this.authorization, */
           'Content-Type': this.contentType
         }
       })
@@ -63,7 +63,7 @@ class Api {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: this.authorization,
+        /* authorization: this.authorization, */
         'Content-Type': this.contentType
       },
       body: JSON.stringify({
@@ -82,7 +82,7 @@ class Api {
     return fetch(`${this.baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        authorization: this.authorization,
+        /* authorization: this.authorization, */
         'Content-Type': this.contentType
       },
       body: JSON.stringify({
@@ -101,7 +101,7 @@ class Api {
     return fetch(`${this.baseUrl}/cards/${idCard}`, {
       method: 'DELETE',
       headers: {
-        authorization: this.authorization,
+        /* authorization: this.authorization, */
         'Content-Type': this.contentType
       }
     })
@@ -113,9 +113,9 @@ class Api {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this.authorization,
         'Content-Type': this.contentType
       },
+      credentials: 'include',
       body: JSON.stringify({
         avatar: newAvatarUrl
       })

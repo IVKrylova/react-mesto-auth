@@ -210,9 +210,13 @@ function App() {
 
     auth.authorize(props.password, props.email)
       .then(data => {
-        // сохраняем токен в Local storage
-        localStorage.setItem('token', data.token);
-        setLoggedIn(true);
+        console.log(data.message);
+        if (data.message === 'Логин успешный') {
+          // сохраняем в Local storage
+          localStorage.setItem(/* 'token', data.token */ 'login', data.message);
+          /* console.log(data.token) */
+          setLoggedIn(true);
+        }
       })
       .catch(err => console.log(err))
   }
@@ -224,18 +228,21 @@ function App() {
 
   // функция проверки токена
   function tokenCheck() {
-    const token = localStorage.getItem('token');
+    /* const token = localStorage.getItem('token'); */
+    const login = localStorage.getItem('login')
 
-    if (token) {
+    if (/* token */login) {
       // проверяем данные о пользователе по токену
-      auth.sendToken(token)
+      /* auth.sendToken(token) */
+      /* auth.sendEmail
       .then(data => {
         const email = data.data.email;
         if (email === localStorage.getItem('email')) {
           setLoggedIn(true);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err)); */
+      setLoggedIn(true);
     }
   }
 
@@ -251,7 +258,7 @@ function App() {
 
   // обработчик выхода из приложения
   function handleExit() {
-    localStorage.removeItem('token');
+    localStorage.removeItem(/* 'token' */'login');
     localStorage.removeItem('email');
     setEmail('');
     setLoggedIn(false);

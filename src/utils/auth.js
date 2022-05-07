@@ -3,6 +3,7 @@ import { BASE_URL } from "./constants";
 // метод проверки ошибок
 function checkResponse(res) {
   if (res.status >= 200 && res.status < 300) {
+    //console.log(res.headers)
     return res.json();
   }
   return Promise.reject(`Ошибка: ${res.status}`);
@@ -33,7 +34,7 @@ export const authorize = (password, email) => {
 }
 
 // запрос на роут аутентификации
-export const sendToken = (token) => {
+/* export const sendToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
@@ -42,4 +43,13 @@ export const sendToken = (token) => {
     }
   })
   .then(checkResponse)
-}
+} */
+/* export const sendEmail = () => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+  .then(checkResponse)
+} */
