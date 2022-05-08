@@ -5,6 +5,7 @@ class Api {
     this.baseUrl = options.baseUrl;
     /* this.authorization = options.headers.authorization; */
     this.contentType = options.headers['Content-Type'];
+    this.authorization = `Bearer ${localStorage.token}`;
   }
 
   // метод проверки ошибок
@@ -17,11 +18,12 @@ class Api {
 
   // метод получения информации о пользователе
   getUserInfo() {
+    console.log(localStorage.token)
+
     return fetch(/* `https://nomoreparties.co/v1/cohort-34/users/me` */`${this.baseUrl}/users/me`, {
-      /* headers: {
+      headers: {
         authorization: this.authorization
-      } */
-      credentials: 'include',
+      }
     })
     .then(this._checkResponse)
   }
@@ -29,10 +31,9 @@ class Api {
   // метод получения массива карточек
   getInitialCards() {
     return fetch(`${this.baseUrl}/cards`, {
-      /* headers: {
-        authorization: this.authorization
-      } */
-      credentials: 'include',
+      headers: {
+        /* authorization: this.authorization */
+      }
     })
     .then(this._checkResponse)
   }
@@ -43,7 +44,7 @@ class Api {
       return fetch(`${this.baseUrl}/cards/${idCard}/likes`, {
         method: 'DELETE',
         headers: {
-          /* authorization: this.authorization, */
+          authorization: this.authorization,
           'Content-Type': this.contentType
         }
       })
@@ -52,7 +53,7 @@ class Api {
       return fetch(`${this.baseUrl}/cards/${idCard}/likes`, {
         method: 'PUT',
         headers: {
-          /* authorization: this.authorization, */
+          authorization: this.authorization,
           'Content-Type': this.contentType
         }
       })
@@ -65,7 +66,7 @@ class Api {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        /* authorization: this.authorization, */
+        authorization: this.authorization,
         'Content-Type': this.contentType
       },
       body: JSON.stringify({
@@ -84,7 +85,7 @@ class Api {
     return fetch(`${this.baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        /* authorization: this.authorization, */
+        authorization: this.authorization,
         'Content-Type': this.contentType
       },
       body: JSON.stringify({
@@ -103,7 +104,7 @@ class Api {
     return fetch(`${this.baseUrl}/cards/${idCard}`, {
       method: 'DELETE',
       headers: {
-        /* authorization: this.authorization, */
+        authorization: this.authorization,
         'Content-Type': this.contentType
       }
     })
@@ -117,7 +118,6 @@ class Api {
       headers: {
         'Content-Type': this.contentType
       },
-      credentials: 'include',
       body: JSON.stringify({
         avatar: newAvatarUrl
       })

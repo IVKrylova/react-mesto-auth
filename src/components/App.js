@@ -203,7 +203,7 @@ function App() {
     }
   }, [isInfoTooltipOpen]);
 
-  // обработчик формы авторизации
+  /* // обработчик формы авторизации
   function handleSubmitLogin(props) {
     // сохраняем email в Local storage
     localStorage.setItem('email', props.email);
@@ -213,10 +213,24 @@ function App() {
         console.log(data);
         if (data.message === 'Логин успешный') {
           // сохраняем в Local storage
-          localStorage.setItem(/* 'token', data.token */ 'login', data.message);
-          /* console.log(data.token) */
+          localStorage.setItem('token', data.token);
+          /* console.log(data.token)
           setLoggedIn(true);
         }
+      })
+      .catch(err => console.log(err))
+  } */
+
+  // обработчик формы авторизации
+  function handleSubmitLogin(props) {
+    // сохраняем email в Local storage
+    localStorage.setItem('email', props.email);
+
+    auth.authorize(props.password, props.email)
+      .then(data => {
+        // сохраняем токен в Local storage
+        localStorage.setItem('token', data.token);
+        setLoggedIn(true);
       })
       .catch(err => console.log(err))
   }
@@ -226,12 +240,12 @@ function App() {
     setEmail(localStorage.getItem('email'));
   }, [loggedIn]);
 
-  // функция проверки пользователя
+  /* // функция проверки пользователя
   function tokenCheck() {
-    /* const token = localStorage.getItem('token'); */
+    /* const token = localStorage.getItem('token');
     const login = localStorage.getItem('login')
 
-    if (/* token */login) {
+    if (/* token login) {
       // проверяем данные о пользователе по токену
       /* auth.sendToken(token) */
       /* auth.sendEmail
@@ -241,8 +255,26 @@ function App() {
           setLoggedIn(true);
         }
       })
-      .catch(err => console.log(err)); */
+      .catch(err => console.log(err));
       setLoggedIn(true);
+    }
+  } */
+
+  // функция проверки токена
+  function tokenCheck() {
+    const token = localStorage.getItem('token');
+
+    console.log(token)
+    if (token) {
+      // проверяем данные о пользователе по токену
+      auth.sendToken(token)
+      .then(data => {
+        const email = data.data.email;
+        if (email === localStorage.getItem('email')) {
+          setLoggedIn(true);
+        }
+      })
+      .catch(err => console.log(err));
     }
   }
 
@@ -256,9 +288,17 @@ function App() {
     }
   }, [loggedIn]);
 
+  /* // обработчик выхода из приложения
+  function handleExit() {
+    localStorage.removeItem(/* 'token' 'login');
+    localStorage.removeItem('email');
+    setEmail('');
+    setLoggedIn(false);
+  } */
+
   // обработчик выхода из приложения
   function handleExit() {
-    localStorage.removeItem(/* 'token' */'login');
+    localStorage.removeItem('token');
     localStorage.removeItem('email');
     setEmail('');
     setLoggedIn(false);
