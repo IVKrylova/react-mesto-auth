@@ -3,9 +3,7 @@ import { options } from './constants';
 class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;
-    /* this.authorization = options.headers.authorization; */
     this.contentType = options.headers['Content-Type'];
-    this.authorization = `Bearer ${localStorage.token}`;
   }
 
   // метод проверки ошибок
@@ -17,34 +15,32 @@ class Api {
   }
 
   // метод получения информации о пользователе
-  getUserInfo() {
-    console.log(localStorage.token)
-
-    return fetch(/* `https://nomoreparties.co/v1/cohort-34/users/me` */`${this.baseUrl}/users/me`, {
+  getUserInfo(token) {
+    return fetch(`${this.baseUrl}/users/me`, {
       headers: {
-        authorization: this.authorization
+        authorization: `Bearer ${token}`
       }
     })
     .then(this._checkResponse)
   }
 
   // метод получения массива карточек
-  getInitialCards() {
+  getInitialCards(token) {
     return fetch(`${this.baseUrl}/cards`, {
       headers: {
-        /* authorization: this.authorization */
+        authorization: `Bearer ${token}`
       }
     })
     .then(this._checkResponse)
   }
 
   // метод отправки на сервер карточки с поставленным/удаленным лайком
-  changeLikeCardStatus(idCard, isLiked) {
+  changeLikeCardStatus(idCard, isLiked, token) {
     if (isLiked) {
       return fetch(`${this.baseUrl}/cards/${idCard}/likes`, {
         method: 'DELETE',
         headers: {
-          authorization: this.authorization,
+          authorization: `Bearer ${token}`,
           'Content-Type': this.contentType
         }
       })
@@ -53,7 +49,7 @@ class Api {
       return fetch(`${this.baseUrl}/cards/${idCard}/likes`, {
         method: 'PUT',
         headers: {
-          authorization: this.authorization,
+          authorization: `Bearer ${token}`,
           'Content-Type': this.contentType
         }
       })
@@ -62,11 +58,11 @@ class Api {
   }
 
   // метод для редактирования информации о пользователе
-  editProfileInfo(data) {
+  editProfileInfo(data, token) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: this.authorization,
+        authorization: `Bearer ${token}`,
         'Content-Type': this.contentType
       },
       body: JSON.stringify({
@@ -81,11 +77,11 @@ class Api {
   }
 
   // метод отправки новой карточки на сервер
-  sendNewCard(data) {
+  sendNewCard(data, token) {
     return fetch(`${this.baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        authorization: this.authorization,
+        authorization: `Bearer ${token}`,
         'Content-Type': this.contentType
       },
       body: JSON.stringify({
@@ -100,11 +96,11 @@ class Api {
   }
 
   // метод удаления карточки
-  deleteCard(idCard) {
+  deleteCard(idCard, token) {
     return fetch(`${this.baseUrl}/cards/${idCard}`, {
       method: 'DELETE',
       headers: {
-        authorization: this.authorization,
+        authorization: `Bearer ${token}`,
         'Content-Type': this.contentType
       }
     })
@@ -112,10 +108,11 @@ class Api {
   }
 
   // метод редактирования аватара
-  editAvatar(newAvatarUrl) {
+  editAvatar(newAvatarUrl, token) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
+        authorization: `Bearer ${token}`,
         'Content-Type': this.contentType
       },
       body: JSON.stringify({

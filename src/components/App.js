@@ -48,12 +48,13 @@ function App() {
   // обработчик клика на лайк
   function handleCardLike(card) {
     // проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser.id);
+    const isLiked = card.likes.some(i => i === currentUser.id);
 
     // oтправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card.id, isLiked)
+    api.changeLikeCardStatus(card.id, isLiked, localStorage.token)
       .then(newCard => {
-        const newArrayCards = cards.map(item => item._id === card.id ? newCard : item);
+
+        const newArrayCards = cards.map(item => item._id === card.id ? newCard.data : item);
 
         setCards(newArrayCards);
       })
@@ -82,7 +83,7 @@ function App() {
 
   // обработчик удаления карточки
   function handleCardDelete(props) {
-    api.deleteCard(props)
+    api.deleteCard(props, localStorage.token)
       .then(_ => {
         const newArrayCards = cards.filter(item => item._id !== props);
 
@@ -132,9 +133,9 @@ function App() {
   // обработчик изменения информации о пользователе
   function handleUpdateUser(props) {
     setIsRenderLoading(true);
-    api.editProfileInfo(props)
+    api.editProfileInfo(props,localStorage.token)
       .then(data => {
-        setCurrentUser({ name: data.name, description: data.about, avatar: data.avatar, id: data._id });
+        setCurrentUser({ name: data.data.name, description: data.data.about, avatar: data.data.avatar, id: data.data._id });
         closeAllPopups();
       })
       .catch(err => console.log(err))
@@ -144,9 +145,9 @@ function App() {
   // обработчик изменения аватара
   function handleUpdateAvatar(props) {
     setIsRenderLoading(true);
-    api.editAvatar(props.avatar)
+    api.editAvatar(props.avatar, localStorage.token)
       .then(data => {
-        setCurrentUser({ name: data.name, description: data.about, avatar: data.avatar, id: data._id });
+        setCurrentUser({ name: data.data.name, description: data.data.about, avatar: data.data.avatar, id: data.data._id });
         closeAllPopups();
       })
       .catch(err => console.log(err))
@@ -156,9 +157,9 @@ function App() {
   // обработчик добавления новой карточки
   function handleAddPlaceSubmit(props) {
     setIsRenderLoading(true);
-    api.sendNewCard(props)
+    api.sendNewCard(props, localStorage.token)
       .then(data => {
-        setCards([data, ...cards]);
+        setCards([data.data, ...cards]);
         closeAllPopups();
       })
       .catch(err => console.log(err))
@@ -167,17 +168,19 @@ function App() {
 
   useEffect(_ => {
     // загрузка информации о пользователе с сервера, загрузка массива карточек
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-    .then(([user, cards]) => {
-      // установка данных о пользователе
-      const { name, about, avatar, _id } = user;
-      setCurrentUser({ name: name, description: about, avatar: avatar, id: _id });
+    if (localStorage.token) {
+      Promise.all([api.getUserInfo(localStorage.token), api.getInitialCards(localStorage.token)])
+      .then(([user, cards]) => {
+        // установка данных о пользователе
+        const { name, about, avatar, _id } = user.data;
+        setCurrentUser({ name: name, description: about, avatar: avatar, id: _id });
 
-      // установка массива карточек
-      setCards(cards);
-    })
-    .catch(err => console.log(err))
-  }, []);
+        // установка массива карточек
+        setCards(cards.data);
+      })
+      .catch(err => console.log(err))
+    }
+  }, [localStorage.token]);
 
   // обработчик переключения меню
   function handleToggleMenu() {
@@ -203,24 +206,6 @@ function App() {
     }
   }, [isInfoTooltipOpen]);
 
-  /* // обработчик формы авторизации
-  function handleSubmitLogin(props) {
-    // сохраняем email в Local storage
-    localStorage.setItem('email', props.email);
-
-    auth.authorize(props.password, props.email)
-      .then(data => {
-        console.log(data);
-        if (data.message === 'Логин успешный') {
-          // сохраняем в Local storage
-          localStorage.setItem('token', data.token);
-          /* console.log(data.token)
-          setLoggedIn(true);
-        }
-      })
-      .catch(err => console.log(err))
-  } */
-
   // обработчик формы авторизации
   function handleSubmitLogin(props) {
     // сохраняем email в Local storage
@@ -240,31 +225,10 @@ function App() {
     setEmail(localStorage.getItem('email'));
   }, [loggedIn]);
 
-  /* // функция проверки пользователя
-  function tokenCheck() {
-    /* const token = localStorage.getItem('token');
-    const login = localStorage.getItem('login')
-
-    if (/* token login) {
-      // проверяем данные о пользователе по токену
-      /* auth.sendToken(token) */
-      /* auth.sendEmail
-      .then(data => {
-        const email = data.data.email;
-        if (email === localStorage.getItem('email')) {
-          setLoggedIn(true);
-        }
-      })
-      .catch(err => console.log(err));
-      setLoggedIn(true);
-    }
-  } */
-
   // функция проверки токена
   function tokenCheck() {
     const token = localStorage.getItem('token');
 
-    console.log(token)
     if (token) {
       // проверяем данные о пользователе по токену
       auth.sendToken(token)
@@ -287,14 +251,6 @@ function App() {
       history.push('/');
     }
   }, [loggedIn]);
-
-  /* // обработчик выхода из приложения
-  function handleExit() {
-    localStorage.removeItem(/* 'token' 'login');
-    localStorage.removeItem('email');
-    setEmail('');
-    setLoggedIn(false);
-  } */
 
   // обработчик выхода из приложения
   function handleExit() {
