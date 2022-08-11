@@ -1,17 +1,41 @@
-# Проект: Место - авторизация/регистрация на React
-Проектная работа для Яндекс.Практикуим (спринт 12)
+<img src="./screenshots/mesto.png" alt="Проект: Место" width=600 /><br>
+<img src="https://shields.io/badge/react-black?logo=react&style=for-the-badge%22" alt="React Badge"/><br>
+**Проектная работа для Яндекс.Практикум (спринты 12)** <br>
+
+## Описание
+Проект Mesto - это веб-приложение на React с аутентификацией пользователей, куда можно добавлять фотографии, удалять их и ставить лайки.
 
 ## Используемые технологии
 1. HTML5
 2. Методология БЭМ
-3. Флексбокс-верстка
-4. Grid-css
-5. Отзывчивая верстка
-6. JavaScript
-7. Fetch API
-8. React
+3. Флексбокс-верстка, Grid-css, отзывчивая верстка
+4. JavaScript, React
+5. Fetch API
 
-## Планы по доработке проекта
-* Создать сервер для Mesto
+## Инструменты
+1. Figma
+2. Pixel perfect
 
-[Ссылка на проект в GitHub Pages](https://ivkrylova.github.io/react-mesto-auth/)
+## Функционал приложения
+* Редактирование профиля пользователя
+* Добавление новых фотографий
+* Возможность поставить/удалить лайк
+* Удаление фотографий
+* Просмотр фотографий в popup
+* Валидация форм
+* Аутентификация пользователей
+
+## Демо
+Посмотреть готовый проект Mesto на React с настроенной авторизацией можно на [GitHub Pages](https://ivkrylova.github.io/react-mesto-auth/).
+
+## Предыдущие версии
+* Проект Mesto на JavaScript можно посмотреть [здесь](https://github.com/IVKrylova/mesto).
+*
+
+## Доработка проекта
+* Проект Mesto на React с настроенной авторизацией можно посмотреть [здесь](https://github.com/IVKrylova/react-mesto-auth).
+* Бэкенд к проекту Mesto можно посмотреть [здесь](https://github.com/IVKrylova/express-mesto-gha).
+* Репозиторий с финальными фронтендом и бэкендом и ссылкой на сайт можно посмотреть [здесь](https://github.com/IVKrylova/react-mesto-api-full).
+
+
+
